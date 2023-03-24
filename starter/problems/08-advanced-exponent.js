@@ -40,14 +40,31 @@ times `advancedExponent` is being recursively called.
 ***********************************************************************/
 
 
-function advancedExponent(b, n) {
-  // your code here
-}
+function advancedExponent(b, n, res = 1) {
+    // your code here
+    // bc: when n is zero return 1;
 
+    if (n === 1) {
+        return b;
+    }
+    //rc: n > 0
+    //rcstep: decrementing n to get to 0 ultimately
+    // 1st condition - n is odd otherwise we have to calcuate the exponent by the provided way
+    if (n % 2 === 1) {
+        res = b * ((advancedExponent(b, (n - 1) / 2)) ** 2)
+    } else {
+        // 2nd condition - n is even calculate the current we have to calcuate the exponent by the provided way
+        res = ((advancedExponent(b, n / 2)) ** 2)
+    }
+
+    return res;
+
+}
+console.log(advancedExponent(2, 11)); // 2
 
 /**************DO NOT MODIFY ANYTHING UNDER THIS LINE*****************/
 try {
-  module.exports = advancedExponent;
+    module.exports = advancedExponent;
 } catch (e) {
-  module.exports = null;
+    module.exports = null;
 }
