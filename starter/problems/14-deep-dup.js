@@ -37,22 +37,37 @@ console.log(x[0] === y[0]) // true
 ***********************************************************************/
 
 // your code here
-let deepDup = (arr, duplicates = []) => {
-    if (arr.length === 0) {
-        return duplicates;
+// let deepDup = (arr, duplicates = []) => {
+
+//     if (arr.length === 0) {
+//         return duplicates;
+//     }
+
+//     let elem = arr[0];
+
+//     if (Array.isArray(elem)) {
+//         duplicates.push(deepDup(elem)); // recursively call deep dup on nested arrays
+//     } else {
+//         duplicates.push([elem])
+//     }
+
+//     return duplicates.concat(deepDup(arr.slice(1))); //recursively call deep duplicates on remaining elems
+
+// }
+let deepDup = (arr) => {
+    let duplicates = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        let elem = arr[i];
+
+        if (Array.isArray(elem)) {
+            duplicates.push(deepDup(elem));
+        } else {
+            duplicates.push([elem]);
+        }
     }
 
-    let elem = arr[0];
-    console.log("elem is ", elem)
-    if (Array.isArray(elem)) {
-        duplicates.push([...elem]);
-        console.log("dup arr is ", duplicates)
-    } else {
-        duplicates.push([elem]);
-    }
-
-    return deepDup(arr.slice(1), duplicates)
-
+    return duplicates;
 }
 
 let arr = [
