@@ -22,12 +22,36 @@ sort([]); // []
 ***********************************************************************/
 
 function sort(nums, sorted = []) {
-  // your code here
-}
+    // your code here
+    if (nums.length === 0) {
+        return sorted;
+    } else if (nums.length === 1) {
+        sorted.push(...nums);
+        return sorted;
+    }
 
+    let smallestIdx = 0;
+    let smallest = nums[0];
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] < smallest) {
+            smallest = nums[i];
+            smallestIdx = i;
+        }
+    }
+
+    sorted.push(...nums.splice(smallestIdx, 1));
+
+    return sort(nums, sorted);
+
+
+
+    // find the smallest elem' idx
+
+}
+console.log(sort([])); // [1, 1, 3, 4, 6, 7]
 /**************DO NOT MODIFY ANYTHING UNDER THIS LINE*****************/
 try {
-  module.exports = sort;
+    module.exports = sort;
 } catch (e) {
-  module.exports = null;
+    module.exports = null;
 }
