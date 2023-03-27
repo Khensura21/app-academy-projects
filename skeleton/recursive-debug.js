@@ -14,8 +14,14 @@ doForAll(["a", "b", "c"]), (x) => x.toUpperCase()); // => ["A", "B", "C"]
 ***********************************************************************/
 
 function doForAll(arr, action) {
+
+  if (arr.length === 0) {
+    return arr;
+  }
+
   return [action(arr[0]), ...doForAll(arr.slice(1), action)];
 }
 
 /**************DO NOT MODIFY ANYTHING UNDER THIS LINE*****************/
 module.exports = doForAll;
+console.log(doForAll(['a', 'b', 'c'], (x) => x.toUpperCase()))
