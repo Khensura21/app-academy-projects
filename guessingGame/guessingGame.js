@@ -7,6 +7,7 @@ const rl = readline.createInterface({
 const RIDDLER = rl;
 
 let secretNum;
+let numAttempts;
 
 //Compare user input: Number, against secret number
 
@@ -26,7 +27,7 @@ const checkGuess = (userInput) => {
         );
         return false;
     } else {
-        // if the user num is == to secret num print correct and return true
+        // otherwise the user guess is correct, so return true
         return true;
     }
 };
@@ -35,20 +36,32 @@ const askGuess = () => {
     //riddler's prompt
     const PROMPT = `--> 🟢 Riddler: Now riddle me this, can you guess the number? `;
 
-    //tell the ridller aka node asks the user some question
+    //tell the ridller aka node asks the user for their guess
     RIDDLER.question(PROMPT, (answer) => {
-        // once received, have the ridller pass the user answer off to the check guess function
+        // Ridller checks user guess
         let checkedAnswer = checkGuess(answer);
 
+        //if their guess is true
         if (checkedAnswer) {
             console.log(
                 "--> 🟢 Riddler: At last, Correct! I thought you'd never guess it! 🪄 ✅"
             );
-            // then finally, dismiss the riddler aka exit the interface, Game over
+            // End game and dismiss the riddler aka exit the interface, Game over
             RIDDLER.close();
         } else {
-            //otherwise call the riddler again!
-            askGuess();
+
+            // end game if player is out of attempts
+            if (numAttempts === 0) {
+                // End game and dismiss the riddler aka exit the interface, Game over
+                console.log("You Lose! Better luck next time, if there is a next time, that is...🤡");
+                RIDDLER.close();
+            } else {
+                //decrement player number of attempts
+                --numAttempts;
+                //Then Ask riddler to ask for another guess!
+                askGuess();
+            }
+
         }
     });
     //console.log("oops, I didn't wait for riddler")
@@ -65,8 +78,11 @@ function randomInRange(min, max) {
 }
 
 function askRange(minNum, maxNum) {
+
+    // Riddler prompt to get min number
     const ASK_FOR_MIN =
-        "-> 🟢 Riddler: Greetings, dear victim. I'm the ❔❔Riddler❔❔, I shall choose a number between two values of your choosing, and you must guess what that number is. Please tell me the min number first:  ";
+        "-> 🟢 Riddler: Please tell me the min numbers first:  ";
+    // Riddler prompt to get MAX number
     const ASK_FOR_MAX = "Now tell me the max number:  ";
 
     // ask riddler to ask user for min number
@@ -80,7 +96,9 @@ function askRange(minNum, maxNum) {
             // generate secret number based on user inputs
             secretNum = randomInRange(minNum, maxNum);
 
-            // begin game, and pass the secret number so the riddler can have a reference to it
+            RIDDLER.question
+
+            // begin game
             askGuess();
         });
     });
@@ -88,4 +106,16 @@ function askRange(minNum, maxNum) {
     return "";
 }
 
-console.log(askRange());
+function askLimit() {
+    const ASK_FOR_RANGE = ` -> 🟢 Riddler: Greetings, dear victim. I'm the ❔❔Riddler❔❔, Let's play a game where YOU GUESS the num I'm thinking of between two nums of your choice. Now, how many guesses would you like ?`
+
+    RIDDLER.question(ASK_FOR_RANGE, userInput => {
+        numAttempts = Number(userInput) - 1;
+        askRange();
+
+    })
+
+    return "";
+}
+
+console.log(askLimit());
