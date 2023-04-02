@@ -49,11 +49,12 @@ const askGuess = () => {
             // End game and dismiss the riddler aka exit the interface, Game over
             RIDDLER.close();
         } else {
-
             // end game if player is out of attempts
             if (numAttempts === 0) {
                 // End game and dismiss the riddler aka exit the interface, Game over
-                console.log("You Lose! Better luck next time, if there is a next time, that is...🤡");
+                console.log(
+                    "You Lose! Better luck next time, if there is a next time, that is...🤡"
+                );
                 RIDDLER.close();
             } else {
                 //decrement player number of attempts
@@ -61,7 +62,6 @@ const askGuess = () => {
                 //Then Ask riddler to ask for another guess!
                 askGuess();
             }
-
         }
     });
     //console.log("oops, I didn't wait for riddler")
@@ -78,10 +78,8 @@ function randomInRange(min, max) {
 }
 
 function askRange(minNum, maxNum) {
-
     // Riddler prompt to get min number
-    const ASK_FOR_MIN =
-        "-> 🟢 Riddler: Please tell me the min numbers first:  ";
+    const ASK_FOR_MIN = "-> 🟢 Riddler: Please tell me the min numbers first:  ";
     // Riddler prompt to get MAX number
     const ASK_FOR_MAX = "Now tell me the max number:  ";
 
@@ -96,7 +94,7 @@ function askRange(minNum, maxNum) {
             // generate secret number based on user inputs
             secretNum = randomInRange(minNum, maxNum);
 
-            RIDDLER.question
+            RIDDLER.question;
 
             // begin game
             askGuess();
@@ -107,13 +105,12 @@ function askRange(minNum, maxNum) {
 }
 
 function askLimit() {
-    const ASK_FOR_RANGE = ` -> 🟢 Riddler: Greetings, dear victim. I'm the ❔❔Riddler❔❔, Let's play a game where YOU GUESS the num I'm thinking of between two nums of your choice. Now, how many guesses would you like ?`
+    const ASK_FOR_RANGE = ` -> 🟢 Riddler: Greetings, dear victim. I'm the ❔❔Riddler❔❔, Let's play a game where YOU GUESS the num I'm thinking of between two nums of your choice. Now, how many guesses would you like ?`;
 
-    RIDDLER.question(ASK_FOR_RANGE, userInput => {
+    RIDDLER.question(ASK_FOR_RANGE, (userInput) => {
         numAttempts = Number(userInput) - 1;
         askRange();
-
-    })
+    });
 
     return "";
 }
