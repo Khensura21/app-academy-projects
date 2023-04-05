@@ -16,6 +16,11 @@ const VALID_MOVES = {
   },
 };
 
+const MESSAGES = {
+  invalidCommand: "\nInvalid Command.\n",
+  prompt: ">",
+};
+
 /********************************* GAME DATA *********************************/
 let wins = 0;
 let losses = 0;
@@ -28,11 +33,11 @@ const SCORE = () => `${wins} wins - ${losses} losses - ${ties} ties`;
 
 function printHelp() {
   // Your code here
-  console.log("  Type 'r' for Rock");
-  console.log("  Type 'p' for Paper");
-  console.log("  Type 's' for Scissors");
+  console.log("\nHelp:\n");
+  Object.keys(VALID_MOVES).forEach((moveKey) => {
+    console.log(`  Type ${moveKey} for ${VALID_MOVES[moveKey].name}`);
+  });
   console.log("  Type 'q' to quit");
-  console.log("  Type 'h' for a list of valid commands\n");
 }
 
 function getWinner(move1, move2) {
@@ -74,25 +79,30 @@ function processMove(cmd, cpu) {
 }
 
 /******************************* MAIN FUNCTION *******************************/
+// extract the actually game play from the user input function
+// this follows the SR(P)rinciple
+function playGame(cmd) {
+  if (VALID_MOVES[cmd]) {
+    const cpu = getCPUMove();
+    processMove(cmd, cpu);
+  } else {
+    console.log(MESSAGES.invalidCommand);
+    printHelp();
+  }
+}
+
 function promptInput(rl) {
   console.log(SCORE());
-  rl.question("> ", (cmd) => {
+  rl.question(MESSAGES.prompt, (cmd) => {
     cmd = cmd.toLowerCase();
-
     if (cmd === "h") {
-      console.log("\nHelp:\n");
       printHelp();
     } else if (cmd === "q") {
       rl.close();
       return;
-    } else if (VALID_MOVES[cmd]) {
-      const cpu = getCPUMove();
-      processMove(cmd, cpu);
     } else {
-      console.log("\nInvalid command.\n");
-      printHelp();
+      playGame(cmd);
     }
-
     promptInput(rl);
   });
 }
@@ -105,7 +115,6 @@ function initializeGame() {
   });
   console.log("Welcome to Rock/Paper/Scissors\n");
   printHelp();
-
   promptInput(rl);
 }
 
